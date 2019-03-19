@@ -16,9 +16,12 @@ public class LuServlet extends HttpServlet {
         System.out.println(111);
         luRunner.init(req,resp);
         try {
+
             luRunner.preRoute();
+            luRunner.beforeRoute();
             luRunner.route();
             luRunner.postRoute();
+            luRunner.afterRoute();
         }catch (Throwable e){
             RequestContext.getCurrentContext().getResponse().sendError(HttpServletResponse.SC_FOUND,e.getMessage());
         }finally {

@@ -35,6 +35,7 @@ public class LuProxyConfiguration implements Ordered {
         List<LuFilter> preFilter = new ArrayList<LuFilter>();
         List<LuFilter> routeFilter = new ArrayList<LuFilter>();
         List<LuFilter> postFilter = new ArrayList<LuFilter>();
+        List<LuFilter> aroundFilter = new ArrayList<LuFilter>();
 
         Map<String, Object> beanWithAnnotationMap = SpringUtils.getApplicationContext().getBeansWithAnnotation(EnableLuFilter.class);
 
@@ -60,6 +61,9 @@ public class LuProxyConfiguration implements Ordered {
                         throw new Exception();
                     }
                 }
+                if(type.equals(FilterType.AROUND)){
+                    aroundFilter.add(luFilter);
+                }
             }else {
                 continue;
             }
@@ -67,10 +71,12 @@ public class LuProxyConfiguration implements Ordered {
         //对获取的数据进行排序
         preFilter = SortUtils.sortLuFilter(preFilter);
         postFilter = SortUtils.sortLuFilter(postFilter);
+        aroundFilter = SortUtils.sortLuFilter(aroundFilter);
 
         CallChainContainer.hashFilters.put(FilterType.PRE,preFilter);
         CallChainContainer.hashFilters.put(FilterType.POST,postFilter);
         CallChainContainer.hashFilters.put(FilterType.ROUTE,routeFilter);
+        CallChainContainer.hashFilters.put(FilterType.AROUND,aroundFilter);
 
         return "";
     }
