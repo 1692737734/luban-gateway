@@ -1,6 +1,7 @@
-package com.luban.filter.pre;
+package com.luban.filter.pre.my;
 
 import com.luban.annotation.EnableLuFilter;
+import com.luban.filter.pre.PreForwardFilter;
 import com.luban.http.HttpRoute;
 
 @EnableLuFilter
@@ -12,7 +13,7 @@ public class MyPreForwardFilter extends PreForwardFilter {
 
     @Override
     public void createHttpRouteList() {
-        httpRouteList.add(new HttpRoute("http://localhost:20001","/api"));
+        httpRouteMap.put("/api","http://localhost:20001");
     }
 
     @Override
