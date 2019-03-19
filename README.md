@@ -51,6 +51,41 @@ httpRouteMap：路由匹配保存map,该map的key为匹配关键字，value为�
     }    
 ```
 
+例子说明：
+
+@EnableLuFilter：该注解为将当期过滤器作为网关过滤器，不添加该注解当期类将不被作为过滤器使用
+
+PreForwardFilter：继承了该类，PreForwardFilter为已经实现好的路由匹配方法，继承了该类，只要设置
+路由规则以及路由规则map就可以达到路由匹配的效果
 
     
-    
+#### 流量控制过滤器
+
+流量控制过滤器需要设置一个参数，就是设置
+
+PreLocalFluxControllerFiltter.keyBucket.setKeyBucket(2);
+
+这个方法就是设置需要设置当前能同时接受多少个请求，当大于这个数量，系统将不做任何相应
+
+相关的代码为：
+
+```
+@EnableLuFilter
+public class MyPreLocalFluxControllerFilter extends PreLocalFluxControllerFiltter {
+    public MyPreLocalFluxControllerFilter(){
+        PreLocalFluxControllerFiltter.keyBucket.setKeyBucket(2);
+    }
+    @Override
+    public int filterOrder() {
+        return 0;
+    }
+}
+```
+
+
+#### 自定义过滤器
+
+自定义过滤器文档后续完善
+
+
+
